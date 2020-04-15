@@ -1,4 +1,40 @@
+# fluent-plugin-imds
 
+[Fluentd](https://fluentd.org/) filter plugin to do something.
+
+TODO: write description for you plugin.
+
+## Installation
+
+### RubyGems
+
+```
+$ gem install fluent-plugin-imds
+```
+
+### Bundler
+
+Add following line to your Gemfile:
+
+```ruby
+gem "fluent-plugin-imds"
+```
+
+And then execute:
+
+```
+$ bundle
+```
+
+## Configuration
+
+You can generate configuration template:
+
+```
+$ fluent-plugin-config-format filter imds
+```
+
+You can copy and paste generated documents here.
 # Contributing
 
 This project welcomes contributions and suggestions.  Most contributions require you to agree to a
