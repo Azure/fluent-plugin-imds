@@ -47,11 +47,13 @@ module Fluent
 
         if response.is_a?(Net::HTTPSuccess) 
           @IMDS = JSON.parse(response.body)
+          @IMDSSuccess = true;
         end
       end
 
       def start
         super
+        @IMDSSuccess = false
         @IMDS = {"compute" => {"subscriptionId" => "",
                                "location" => "",
                                "resourceGroupName" => "",
@@ -63,6 +65,10 @@ module Fluent
       end
 
       def filter(tag, time, record)
+
+        if !@IMDSSuccess
+          fetchIMDS()
+        end
 
         data = @IMDS
 
