@@ -52,7 +52,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  bundler (~> 2.1.4)
+  bundler
   fluent-plugin-imds!
   rake (~> 12.3)
   test-unit (~> 3.0)

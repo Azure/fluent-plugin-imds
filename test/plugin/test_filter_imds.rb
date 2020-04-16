@@ -62,61 +62,15 @@ class ImdsFilterTest < Test::Unit::TestCase
     assert_equal(d.filtered_records[0]["vmId"], "a7ff7831-57cf-4fa6-9016-726d1c81dfdf")
     assert_equal(d.filtered_records[0]["placementGroup"], "") 
     assert_equal(d.filtered_records[0]["containerID"], "a0a000a0-0000-0a00-aaa0-aaaa00aa0a00")
+    unstrippedDistro = `lsb_release -si`
+    assert_equal(d.filtered_records[0]["distro"], unstrippedDistro.strip)
+    unstrippedVersion = `lsb_release -sr`
+    assert_equal(d.filtered_records[0]["distroVersion"], unstrippedVersion.strip)
+    unstrippedKernel = `uname -r`
+    assert_equal(d.filtered_records[0]["kernelVersion"], unstrippedKernel.strip)
   end
 
-  test "test-to-see-that-filter-returns-records-in-correct-format" do
-    stub_request(:get, "http://169.254.169.254/metadata/instance?api-version=2019-11-01").
-    with(
-      headers: {
-  	  'Accept'=>'*/*',
-  	  'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
-  	  'Host'=>'169.254.169.254',
-  	  'Metadata'=>'true',
-  	  'User-Agent'=>'Ruby'
-      }).
-    to_return(status: 200, body: IMDS, headers: {})
-    d = create_driver()
-    d.run do
-      d.feed("test1", @time, {"Matt says" => "Hello"})
-    end
-    assert_equal(d.filtered_records[0]["Matt says"], "Hello")
-    assert_equal(d.filtered_records[0]["subscriptionId"], "0000a0a0-0a0a-000a-0000-000a000aa0a")
-    assert_equal(d.filtered_records[0]["region"], "eastus")
-    assert_equal(d.filtered_records[0]["resourceGroup"], "juelm-imds-fluentd")
-    assert_equal(d.filtered_records[0]["vmName"], "fluentd-test2")
-    assert_equal(d.filtered_records[0]["vmSize"], "Standard_B2s")
-    assert_equal(d.filtered_records[0]["vmId"], "a7ff7831-57cf-4fa6-9016-726d1c81dfdf")
-    assert_equal(d.filtered_records[0]["placementGroup"], "") 
-    assert_equal(d.filtered_records[0]["containerID"], "a0a000a0-0000-0a00-aaa0-aaaa00aa0a00")
-
-    stub_request(:get, "http://169.254.169.254/metadata/instance?api-version=2019-11-01").
-    with(
-      headers: {
-  	  'Accept'=>'*/*',
-  	  'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
-  	  'Host'=>'169.254.169.254',
-  	  'Metadata'=>'true',
-  	  'User-Agent'=>'Ruby'
-      }).
-    to_return(status: 404, body: IMDS, headers: {})
-
-    d.run do
-      d.feed("test1", @time, {"Matt says" => "Hello Again"})
-    end
-    assert_equal(d.filtered_records[1]["Matt says"], "Hello Again")
-    assert_equal(d.filtered_records[1]["subscriptionId"], "0000a0a0-0a0a-000a-0000-000a000aa0a")
-    assert_equal(d.filtered_records[1]["region"], "eastus")
-    assert_equal(d.filtered_records[1]["resourceGroup"], "juelm-imds-fluentd")
-    assert_equal(d.filtered_records[1]["vmName"], "fluentd-test2")
-    assert_equal(d.filtered_records[1]["vmSize"], "Standard_B2s")
-    assert_equal(d.filtered_records[1]["vmId"], "a7ff7831-57cf-4fa6-9016-726d1c81dfdf")
-    assert_equal(d.filtered_records[1]["placementGroup"], "") 
-    assert_equal(d.filtered_records[1]["containerID"], "a0a000a0-0000-0a00-aaa0-aaaa00aa0a00")
-  end
-
-  test "test-to-see-that-filter-returns-error-message-on-http-failure" do
-    error = 404
-    message = Net::HTTPResponse::CODE_TO_OBJ['404']
+  test "test-to-see-that-filter-returns-correct-partial-record-on-http-failure" do
     stub_request(:get, "http://169.254.169.254/metadata/instance?api-version=2019-11-01").
     with(
       headers: {
@@ -148,5 +102,63 @@ class ImdsFilterTest < Test::Unit::TestCase
     assert_equal(d.filtered_records[0]["kernelVersion"], unstrippedKernel.strip)
 
     assert_equal(d.filtered_records[0]["containerID"], "a0a000a0-0000-0a00-aaa0-aaaa00aa0a00")
+  end
+
+  test "test-to-see-that-filter-returns-correct-records-after-initial-http-failure" do
+    stub_request(:get, "http://169.254.169.254/metadata/instance?api-version=2019-11-01").
+    with(
+      headers: {
+  	  'Accept'=>'*/*',
+  	  'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
+  	  'Host'=>'169.254.169.254',
+  	  'Metadata'=>'true',
+  	  'User-Agent'=>'Ruby'
+      }).
+    to_return(status: 404, body: IMDS, headers: {})
+    d = create_driver()
+    d.run do
+      d.feed("test1", @time, {"Matt says" => "Hello"})
+    end
+    assert_equal(d.filtered_records[0]["Matt says"], "Hello")
+    assert_equal(d.filtered_records[0]["subscriptionId"], "")
+    assert_equal(d.filtered_records[0]["region"], "")
+    assert_equal(d.filtered_records[0]["resourceGroup"], "")
+    assert_equal(d.filtered_records[0]["vmName"], "")
+    assert_equal(d.filtered_records[0]["vmSize"], "")
+    assert_equal(d.filtered_records[0]["vmId"], "")
+    assert_equal(d.filtered_records[0]["placementGroup"], "")
+    
+    unstrippedDistro = `lsb_release -si`
+    assert_equal(d.filtered_records[0]["distro"], unstrippedDistro.strip)
+    unstrippedVersion = `lsb_release -sr`
+    assert_equal(d.filtered_records[0]["distroVersion"], unstrippedVersion.strip)
+    unstrippedKernel = `uname -r`
+    assert_equal(d.filtered_records[0]["kernelVersion"], unstrippedKernel.strip)
+
+    assert_equal(d.filtered_records[0]["containerID"], "a0a000a0-0000-0a00-aaa0-aaaa00aa0a00")
+
+    stub_request(:get, "http://169.254.169.254/metadata/instance?api-version=2019-11-01").
+    with(
+      headers: {
+  	  'Accept'=>'*/*',
+  	  'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
+  	  'Host'=>'169.254.169.254',
+  	  'Metadata'=>'true',
+  	  'User-Agent'=>'Ruby'
+      }).
+    to_return(status: 200, body: IMDS, headers: {})
+
+    d.run do
+      d.feed("test1", @time, {"Matt says" => "Hello Again"})
+    end
+    assert_equal(d.filtered_records[1]["Matt says"], "Hello Again")
+    assert_equal(d.filtered_records[1]["subscriptionId"], "0000a0a0-0a0a-000a-0000-000a000aa0a")
+    assert_equal(d.filtered_records[1]["region"], "eastus")
+    assert_equal(d.filtered_records[1]["resourceGroup"], "juelm-imds-fluentd")
+    assert_equal(d.filtered_records[1]["vmName"], "fluentd-test2")
+    assert_equal(d.filtered_records[1]["vmSize"], "Standard_B2s")
+    assert_equal(d.filtered_records[1]["vmId"], "a7ff7831-57cf-4fa6-9016-726d1c81dfdf")
+    assert_equal(d.filtered_records[1]["placementGroup"], "") 
+    assert_equal(d.filtered_records[1]["containerID"], "a0a000a0-0000-0a00-aaa0-aaaa00aa0a00")
   end
 end
