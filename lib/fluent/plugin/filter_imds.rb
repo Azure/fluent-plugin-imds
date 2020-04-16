@@ -62,6 +62,9 @@ module Fluent
                                "vmId" => "",
                                "placementGroupId" => ""}}
         fetchIMDS()
+        @unstrippedDistro = `lsb_release -si`
+        @unstrippedVersion = `lsb_release -sr`
+        @unstrippedKernel = `uname -r`
       end
 
       def filter(tag, time, record)
@@ -79,12 +82,9 @@ module Fluent
         record["vmSize"] = data["compute"]["vmSize"]
         record["vmId"] = data["compute"]["vmId"]
         record["placementGroup"] = data["compute"]["placementGroupId"]
-        unstrippedDistro = `lsb_release -si`
-        record["distro"] = unstrippedDistro.strip
-        unstrippedVersion = `lsb_release -sr`
-        record["distroVersion"] = unstrippedVersion.strip
-        unstrippedKernel = `uname -r`
-        record["kernelVersion"] = unstrippedKernel.strip
+        record["distro"] = @unstrippedDistro.strip
+        record["distroVersion"] = @unstrippedVersion.strip
+        record["kernelVersion"] = @unstrippedKernel.strip
         if(@containerIdInput == "")
           unstrippedContainerId = `cat /var/lib/hyperv/.kvp_pool_3 | sed -e 's/^.*VirtualMachineName//'`
         else
