@@ -1,8 +1,8 @@
 # fluent-plugin-imds
 
-[Fluentd](https://fluentd.org/) filter plugin to do something.
+[Fluentd](https://fluentd.org/) filter plugin to add Azure metadata to logs.
 
-TODO: write description for you plugin.
+Fluentd filter plugin to add Azure metadata to logs.
 
 ## Installation
 
@@ -28,13 +28,12 @@ $ bundle
 
 ## Configuration
 
-You can generate configuration template:
+Sample Configuration:
 
-```
-$ fluent-plugin-config-format filter imds
-```
+<filter tag>
+  @type imds
+</filter>
 
-You can copy and paste generated documents here.
 # Contributing
 
 This project welcomes contributions and suggestions.  Most contributions require you to agree to a
