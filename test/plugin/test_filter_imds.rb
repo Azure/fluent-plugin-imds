@@ -1,3 +1,6 @@
+# Copyright (c) Microsoft Corporation.
+# Licensed under the MIT License.
+
 require "helper"
 require "fluent/plugin/filter_imds.rb"
 require 'webmock/test_unit'

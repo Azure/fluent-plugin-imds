@@ -1,3 +1,6 @@
+# Copyright (c) Microsoft Corporation.
+# Licensed under the MIT License.
+
 require "bundler"
 Bundler::GemHelper.install_tasks
 

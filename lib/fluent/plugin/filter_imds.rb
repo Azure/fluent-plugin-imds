@@ -1,4 +1,7 @@
 
+# Copyright (c) Microsoft Corporation.
+# Licensed under the MIT License.
+
 require "fluent/plugin/filter"
 require 'net/http'
 require 'uri'
