@@ -1,8 +1,7 @@
 # fluent-plugin-imds
 
-[Fluentd](https://fluentd.org/) filter plugin to do something.
+[Fluentd](https://fluentd.org/) filter plugin to add imds metadata to logs.
 
-TODO: write description for you plugin.
 
 ## Installation
 
