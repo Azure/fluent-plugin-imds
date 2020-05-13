@@ -60,6 +60,7 @@ module Fluent
         @IMDS = {"compute" => {"subscriptionId" => "",
                                "location" => "",
                                "resourceGroupName" => "",
+                               "resourceId" => "",
                                "name" => "",
                                "vmSize" => "",
                                "vmId" => "",
