@@ -161,7 +161,7 @@ class ImdsFilterTest < Test::Unit::TestCase
     assert_equal(d.filtered_records[1]["subscriptionId"], "0000a0a0-0a0a-000a-0000-000a000aa0a")
     assert_equal(d.filtered_records[1]["region"], "eastus")
     assert_equal(d.filtered_records[1]["resourceGroupName"], "juelm-imds-fluentd")
-    assert_equal(d.filtered_records[0]["resourceId"], "/subscriptions/0000a0a0-0a0a-000a-0000-000a000aa0a/resourceGroups/juelm-imds-fluentd/providers/Microsoft.Compute/virtualMachines/fluentd-test2")
+    assert_equal(d.filtered_records[1]["resourceId"], "/subscriptions/0000a0a0-0a0a-000a-0000-000a000aa0a/resourceGroups/juelm-imds-fluentd/providers/Microsoft.Compute/virtualMachines/fluentd-test2")
     assert_equal(d.filtered_records[1]["vmName"], "fluentd-test2")
     assert_equal(d.filtered_records[1]["vmSize"], "Standard_B2s")
     assert_equal(d.filtered_records[1]["vmId"], "a7ff7831-57cf-4fa6-9016-726d1c81dfdf")
