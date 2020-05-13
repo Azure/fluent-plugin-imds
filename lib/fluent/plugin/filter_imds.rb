@@ -36,7 +36,7 @@ module Fluent
       end
 
       def fetchIMDS()
-        uri = URI.parse("http://169.254.169.254/metadata/instance?api-version=2019-11-01")
+        uri = URI.parse("http://169.254.169.254/metadata/instance?api-version=2019-08-15")
         request = Net::HTTP::Get.new(uri)
         request["Metadata"] = "true"
 
@@ -80,7 +80,8 @@ module Fluent
 
         record["subscriptionId"] = data["compute"]["subscriptionId"]
         record["region"] = data["compute"]["location"]
-        record["resourceGroup"] = data["compute"]["resourceGroupName"]
+        record["resourceGroupName"] = data["compute"]["resourceGroupName"]
+        record["resourceId"] = data["compute"]["resourceId"]
         record["vmName"] = data["compute"]["name"]
         record["vmSize"] = data["compute"]["vmSize"]
         record["vmId"] = data["compute"]["vmId"]
