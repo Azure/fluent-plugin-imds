@@ -42,7 +42,7 @@ class ImdsFilterTest < Test::Unit::TestCase
   end
 
   test "test-to-see-that-filter-returns-correct-message-and-imds-data" do
-    stub_request(:get, "http://169.254.169.254/metadata/instance?api-version=2019-11-01").
+    stub_request(:get, "http://169.254.169.254/metadata/instance?api-version=2019-08-15").
     with(
       headers: {
   	  'Accept'=>'*/*',
@@ -59,7 +59,8 @@ class ImdsFilterTest < Test::Unit::TestCase
     assert_equal(d.filtered_records[0]["Matt says"], "Hello")
     assert_equal(d.filtered_records[0]["subscriptionId"], "0000a0a0-0a0a-000a-0000-000a000aa0a")
     assert_equal(d.filtered_records[0]["region"], "eastus")
-    assert_equal(d.filtered_records[0]["resourceGroup"], "juelm-imds-fluentd")
+    assert_equal(d.filtered_records[0]["resourceGroupName"], "juelm-imds-fluentd")
+    assert_equal(d.filtered_records[0]["resourceId"], "/subscriptions/0000a0a0-0a0a-000a-0000-000a000aa0a/resourceGroups/juelm-imds-fluentd/providers/Microsoft.Compute/virtualMachines/fluentd-test2")
     assert_equal(d.filtered_records[0]["vmName"], "fluentd-test2")
     assert_equal(d.filtered_records[0]["vmSize"], "Standard_B2s")
     assert_equal(d.filtered_records[0]["vmId"], "a7ff7831-57cf-4fa6-9016-726d1c81dfdf")
@@ -74,7 +75,7 @@ class ImdsFilterTest < Test::Unit::TestCase
   end
 
   test "test-to-see-that-filter-returns-correct-partial-record-on-http-failure" do
-    stub_request(:get, "http://169.254.169.254/metadata/instance?api-version=2019-11-01").
+    stub_request(:get, "http://169.254.169.254/metadata/instance?api-version=2019-08-15").
     with(
       headers: {
   	  'Accept'=>'*/*',
@@ -91,7 +92,8 @@ class ImdsFilterTest < Test::Unit::TestCase
     assert_equal(d.filtered_records[0]["Matt says"], "Hello")
     assert_equal(d.filtered_records[0]["subscriptionId"], "")
     assert_equal(d.filtered_records[0]["region"], "")
-    assert_equal(d.filtered_records[0]["resourceGroup"], "")
+    assert_equal(d.filtered_records[0]["resourceGroupName"], "")
+    assert_equal(d.filtered_records[0]["resourceId"], "")
     assert_equal(d.filtered_records[0]["vmName"], "")
     assert_equal(d.filtered_records[0]["vmSize"], "")
     assert_equal(d.filtered_records[0]["vmId"], "")
@@ -108,7 +110,7 @@ class ImdsFilterTest < Test::Unit::TestCase
   end
 
   test "test-to-see-that-filter-returns-correct-records-after-initial-http-failure" do
-    stub_request(:get, "http://169.254.169.254/metadata/instance?api-version=2019-11-01").
+    stub_request(:get, "http://169.254.169.254/metadata/instance?api-version=2019-08-15").
     with(
       headers: {
   	  'Accept'=>'*/*',
@@ -125,7 +127,8 @@ class ImdsFilterTest < Test::Unit::TestCase
     assert_equal(d.filtered_records[0]["Matt says"], "Hello")
     assert_equal(d.filtered_records[0]["subscriptionId"], "")
     assert_equal(d.filtered_records[0]["region"], "")
-    assert_equal(d.filtered_records[0]["resourceGroup"], "")
+    assert_equal(d.filtered_records[0]["resourceGroupName"], "")
+    assert_equal(d.filtered_records[0]["resourceId"], "")
     assert_equal(d.filtered_records[0]["vmName"], "")
     assert_equal(d.filtered_records[0]["vmSize"], "")
     assert_equal(d.filtered_records[0]["vmId"], "")
@@ -140,7 +143,7 @@ class ImdsFilterTest < Test::Unit::TestCase
 
     assert_equal(d.filtered_records[0]["containerID"], "a0a000a0-0000-0a00-aaa0-aaaa00aa0a00")
 
-    stub_request(:get, "http://169.254.169.254/metadata/instance?api-version=2019-11-01").
+    stub_request(:get, "http://169.254.169.254/metadata/instance?api-version=2019-08-15").
     with(
       headers: {
   	  'Accept'=>'*/*',
@@ -157,7 +160,8 @@ class ImdsFilterTest < Test::Unit::TestCase
     assert_equal(d.filtered_records[1]["Matt says"], "Hello Again")
     assert_equal(d.filtered_records[1]["subscriptionId"], "0000a0a0-0a0a-000a-0000-000a000aa0a")
     assert_equal(d.filtered_records[1]["region"], "eastus")
-    assert_equal(d.filtered_records[1]["resourceGroup"], "juelm-imds-fluentd")
+    assert_equal(d.filtered_records[1]["resourceGroupName"], "juelm-imds-fluentd")
+    assert_equal(d.filtered_records[1]["resourceId"], "/subscriptions/0000a0a0-0a0a-000a-0000-000a000aa0a/resourceGroups/juelm-imds-fluentd/providers/Microsoft.Compute/virtualMachines/fluentd-test2")
     assert_equal(d.filtered_records[1]["vmName"], "fluentd-test2")
     assert_equal(d.filtered_records[1]["vmSize"], "Standard_B2s")
     assert_equal(d.filtered_records[1]["vmId"], "a7ff7831-57cf-4fa6-9016-726d1c81dfdf")
