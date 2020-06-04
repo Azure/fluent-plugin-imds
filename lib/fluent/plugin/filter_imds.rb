@@ -82,11 +82,11 @@ module Fluent
         record["subscriptionId"] = data["compute"]["subscriptionId"]
         record["region"] = data["compute"]["location"]
         record["resourceGroupName"] = data["compute"]["resourceGroupName"]
-        record["resourceId"] = data["compute"]["resourceId"]
+        record["azureResourceId"] = data["compute"]["resourceId"]
         record["vmName"] = data["compute"]["name"]
         record["vmSize"] = data["compute"]["vmSize"]
         record["vmId"] = data["compute"]["vmId"]
-        record["placementGroup"] = data["compute"]["placementGroupId"]
+        record["placementGroupId"] = data["compute"]["placementGroupId"]
         record["distro"] = @unstrippedDistro.strip
         record["distroVersion"] = @unstrippedVersion.strip
         record["kernelVersion"] = @unstrippedKernel.strip
@@ -96,7 +96,7 @@ module Fluent
           unstrippedContainerId = @containerIdInput
         end
         strippedContainerId = stripKVPValue(unstrippedContainerId)
-        record["containerID"] = strippedContainerId
+        record["containerId"] = strippedContainerId
 
         record
       end
