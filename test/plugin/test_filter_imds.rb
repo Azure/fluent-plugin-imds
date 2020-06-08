@@ -60,12 +60,12 @@ class ImdsFilterTest < Test::Unit::TestCase
     assert_equal(d.filtered_records[0]["subscriptionId"], "0000a0a0-0a0a-000a-0000-000a000aa0a")
     assert_equal(d.filtered_records[0]["region"], "eastus")
     assert_equal(d.filtered_records[0]["resourceGroupName"], "juelm-imds-fluentd")
-    assert_equal(d.filtered_records[0]["resourceId"], "/subscriptions/0000a0a0-0a0a-000a-0000-000a000aa0a/resourceGroups/juelm-imds-fluentd/providers/Microsoft.Compute/virtualMachines/fluentd-test2")
+    assert_equal(d.filtered_records[0]["azureResourceId"], "/subscriptions/0000a0a0-0a0a-000a-0000-000a000aa0a/resourceGroups/juelm-imds-fluentd/providers/Microsoft.Compute/virtualMachines/fluentd-test2")
     assert_equal(d.filtered_records[0]["vmName"], "fluentd-test2")
     assert_equal(d.filtered_records[0]["vmSize"], "Standard_B2s")
     assert_equal(d.filtered_records[0]["vmId"], "a7ff7831-57cf-4fa6-9016-726d1c81dfdf")
-    assert_equal(d.filtered_records[0]["placementGroup"], "") 
-    assert_equal(d.filtered_records[0]["containerID"], "a0a000a0-0000-0a00-aaa0-aaaa00aa0a00")
+    assert_equal(d.filtered_records[0]["placementGroupId"], "") 
+    assert_equal(d.filtered_records[0]["containerId"], "a0a000a0-0000-0a00-aaa0-aaaa00aa0a00")
     unstrippedDistro = `lsb_release -si`
     assert_equal(d.filtered_records[0]["distro"], unstrippedDistro.strip)
     unstrippedVersion = `lsb_release -sr`
@@ -93,11 +93,11 @@ class ImdsFilterTest < Test::Unit::TestCase
     assert_equal(d.filtered_records[0]["subscriptionId"], "")
     assert_equal(d.filtered_records[0]["region"], "")
     assert_equal(d.filtered_records[0]["resourceGroupName"], "")
-    assert_equal(d.filtered_records[0]["resourceId"], "")
+    assert_equal(d.filtered_records[0]["azureResourceId"], "")
     assert_equal(d.filtered_records[0]["vmName"], "")
     assert_equal(d.filtered_records[0]["vmSize"], "")
     assert_equal(d.filtered_records[0]["vmId"], "")
-    assert_equal(d.filtered_records[0]["placementGroup"], "")
+    assert_equal(d.filtered_records[0]["placementGroupId"], "")
     
     unstrippedDistro = `lsb_release -si`
     assert_equal(d.filtered_records[0]["distro"], unstrippedDistro.strip)
@@ -106,7 +106,7 @@ class ImdsFilterTest < Test::Unit::TestCase
     unstrippedKernel = `uname -r`
     assert_equal(d.filtered_records[0]["kernelVersion"], unstrippedKernel.strip)
 
-    assert_equal(d.filtered_records[0]["containerID"], "a0a000a0-0000-0a00-aaa0-aaaa00aa0a00")
+    assert_equal(d.filtered_records[0]["containerId"], "a0a000a0-0000-0a00-aaa0-aaaa00aa0a00")
   end
 
   test "test-to-see-that-filter-returns-correct-records-after-initial-http-failure" do
@@ -128,11 +128,11 @@ class ImdsFilterTest < Test::Unit::TestCase
     assert_equal(d.filtered_records[0]["subscriptionId"], "")
     assert_equal(d.filtered_records[0]["region"], "")
     assert_equal(d.filtered_records[0]["resourceGroupName"], "")
-    assert_equal(d.filtered_records[0]["resourceId"], "")
+    assert_equal(d.filtered_records[0]["azureResourceId"], "")
     assert_equal(d.filtered_records[0]["vmName"], "")
     assert_equal(d.filtered_records[0]["vmSize"], "")
     assert_equal(d.filtered_records[0]["vmId"], "")
-    assert_equal(d.filtered_records[0]["placementGroup"], "")
+    assert_equal(d.filtered_records[0]["placementGroupId"], "")
     
     unstrippedDistro = `lsb_release -si`
     assert_equal(d.filtered_records[0]["distro"], unstrippedDistro.strip)
@@ -141,7 +141,7 @@ class ImdsFilterTest < Test::Unit::TestCase
     unstrippedKernel = `uname -r`
     assert_equal(d.filtered_records[0]["kernelVersion"], unstrippedKernel.strip)
 
-    assert_equal(d.filtered_records[0]["containerID"], "a0a000a0-0000-0a00-aaa0-aaaa00aa0a00")
+    assert_equal(d.filtered_records[0]["containerId"], "a0a000a0-0000-0a00-aaa0-aaaa00aa0a00")
 
     stub_request(:get, "http://169.254.169.254/metadata/instance?api-version=2019-08-15").
     with(
@@ -161,11 +161,11 @@ class ImdsFilterTest < Test::Unit::TestCase
     assert_equal(d.filtered_records[1]["subscriptionId"], "0000a0a0-0a0a-000a-0000-000a000aa0a")
     assert_equal(d.filtered_records[1]["region"], "eastus")
     assert_equal(d.filtered_records[1]["resourceGroupName"], "juelm-imds-fluentd")
-    assert_equal(d.filtered_records[1]["resourceId"], "/subscriptions/0000a0a0-0a0a-000a-0000-000a000aa0a/resourceGroups/juelm-imds-fluentd/providers/Microsoft.Compute/virtualMachines/fluentd-test2")
+    assert_equal(d.filtered_records[1]["azureResourceId"], "/subscriptions/0000a0a0-0a0a-000a-0000-000a000aa0a/resourceGroups/juelm-imds-fluentd/providers/Microsoft.Compute/virtualMachines/fluentd-test2")
     assert_equal(d.filtered_records[1]["vmName"], "fluentd-test2")
     assert_equal(d.filtered_records[1]["vmSize"], "Standard_B2s")
     assert_equal(d.filtered_records[1]["vmId"], "a7ff7831-57cf-4fa6-9016-726d1c81dfdf")
-    assert_equal(d.filtered_records[1]["placementGroup"], "") 
-    assert_equal(d.filtered_records[1]["containerID"], "a0a000a0-0000-0a00-aaa0-aaaa00aa0a00")
+    assert_equal(d.filtered_records[1]["placementGroupId"], "") 
+    assert_equal(d.filtered_records[1]["containerId"], "a0a000a0-0000-0a00-aaa0-aaaa00aa0a00")
   end
 end
