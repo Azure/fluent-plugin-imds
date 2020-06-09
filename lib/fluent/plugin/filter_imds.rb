@@ -60,7 +60,6 @@ module Fluent
         @IMDS = {"compute" => {"subscriptionId" => "",
                                "location" => "",
                                "resourceGroupName" => "",
-                               "resourceId" => "",
                                "name" => "",
                                "vmSize" => "",
                                "vmId" => "",
@@ -82,7 +81,6 @@ module Fluent
         record["subscriptionId"] = data["compute"]["subscriptionId"]
         record["region"] = data["compute"]["location"]
         record["resourceGroupName"] = data["compute"]["resourceGroupName"]
-        record["resourceId"] = data["compute"]["resourceId"]
         record["vmName"] = data["compute"]["name"]
         record["vmSize"] = data["compute"]["vmSize"]
         record["vmId"] = data["compute"]["vmId"]
