@@ -6,7 +6,7 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 
 Gem::Specification.new do |spec|
   spec.name    = "fluent-plugin-imds"
-  spec.version = "0.1.3"
+  spec.version = "0.1.4"
   spec.authors       = ["Matt Juel "]
   spec.email         = ["v-majuel@microsoft"]
 
