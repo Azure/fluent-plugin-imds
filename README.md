@@ -6,10 +6,12 @@ Fluentd filter plugin to add Azure metadata to logs.
 
 ## Installation
 
-### RubyGems
+### Gem Install
 
 ```
-$ gem install fluent-plugin-imds
+Follow the instructions in the packages section of this repo
+
+*Not available on RubyGems
 ```
 
 ### Bundler
